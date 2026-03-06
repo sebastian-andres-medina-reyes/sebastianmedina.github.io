@@ -1,250 +1,408 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-<meta charset="UTF-8">
-<title>Portafolio de Ingeniería</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Portafolio — Sebastián Medina</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-}
-
+/* ========== Reset / utilities ========== */
+*{box-sizing:border-box}
+html,body{height:100%}
 body{
-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
-margin:0;
-background:linear-gradient(180deg,#f5f5f7,#e9edf3);
-color:#222;
+  margin:0;
+  font-family: "Inter", "Segoe UI", Arial, Helvetica, sans-serif;
+  background: linear-gradient(180deg,#f6f8fb,#e9eef6);
+  color:#0f1724;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
 }
 
-/* Barra superior elegante */
-
+/* ========== Top nav ========== */
 nav{
-background:#0d0d0d;
-color:white;
-padding:15px 40px;
-font-size:14px;
-letter-spacing:1px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 28px;
+  background:linear-gradient(90deg, rgba(10,17,40,0.98), rgba(15,23,42,0.98));
+  color:#f7fbff;
+  gap:12px;
+  position:sticky;
+  top:0;
+  z-index:40;
+  box-shadow:0 3px 12px rgba(5,10,20,0.18);
 }
+nav .brand{font-weight:700;letter-spacing:0.6px}
+nav .small{opacity:0.85;font-size:0.92rem}
 
-nav span{
-opacity:0.8;
-}
-
-/* Header */
-
+/* ========== Header ========== */
 header{
-background:linear-gradient(135deg,#0f0f0f,#1d1d1d);
-color:white;
-text-align:center;
-padding:80px 20px;
-position:relative;
-overflow:hidden;
+  text-align:center;
+  padding:80px 20px 60px;
+  background:linear-gradient(135deg,#071028,#0c2b47);
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+}
+header h1{font-size:36px;margin:0 0 8px}
+header p{opacity:0.9;margin:0;font-size:1.05rem}
+
+/* decorative gradient shapes */
+.header-shape{
+  position:absolute;
+  right:-120px;
+  top:-40px;
+  width:420px;height:420px;
+  background:radial-gradient(circle at 30% 30%, rgba(58,166,255,0.14), transparent 25%),
+             radial-gradient(circle at 70% 70%, rgba(122,80,255,0.08), transparent 20%);
+  transform:rotate(20deg);
+  pointer-events:none;
 }
 
-header h1{
-margin:0;
-font-size:42px;
-letter-spacing:1px;
-}
-
-header p{
-opacity:0.75;
-margin-top:10px;
-}
-
-/* línea decorativa */
-
-header::after{
-content:"";
-width:120px;
-height:3px;
-background:#3aa6ff;
-display:block;
-margin:20px auto 0;
-}
-
-/* Contenedor */
-
+/* container */
 .container{
-max-width:1000px;
-margin:auto;
-padding:50px 20px;
+  max-width:1100px;
+  margin:30px auto;
+  padding:26px;
 }
 
-/* Titulos */
-
+/* section title */
 h2{
-margin-top:50px;
-border-bottom:2px solid #d6dbe3;
-padding-bottom:10px;
-color:#111;
+  font-size:1.25rem;
+  margin:18px 0 12px;
+  color:#071028;
+  border-bottom:2px solid rgba(7,16,36,0.06);
+  padding-bottom:10px;
 }
 
-/* Proyectos */
+/* about text */
+.about p{
+  color:#24334a;
+  background:linear-gradient(90deg, rgba(250,250,252,1), rgba(250,250,252,1));
+  padding:14px 18px;
+  border-radius:10px;
+  box-shadow:0 6px 20px rgba(12,24,48,0.06);
+}
 
+/* ========== Projects grid ========== */
 .projects{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
-margin-top:40px;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:28px;
+  margin-top:18px;
 }
 
-/* Tarjetas */
-
+/* card */
 .card{
-background:white;
-border-radius:12px;
-padding:25px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
-transition:all 0.35s ease;
-position:relative;
-overflow:hidden;
+  background:linear-gradient(180deg,#ffffff,#fbfdff);
+  border-radius:12px;
+  padding:18px;
+  box-shadow:0 14px 30px rgba(9,20,40,0.06);
+  overflow:hidden;
+  transition:transform .28s ease, box-shadow .28s ease;
+}
+.card:hover{ transform:translateY(-8px); box-shadow:0 28px 60px rgba(9,20,40,0.09); }
+.card h3{ margin:0 0 8px; color:#062033; }
+.card p{ margin:0 0 12px; color:#334a63; }
+
+/* small meta line */
+.meta{ font-size:0.9rem; color:#54708a; margin-bottom:8px; }
+
+/* ========== Marquee (smooth looping scroller) ========== */
+/* .marquee is the visible frame; .marquee-track is the long row (duplicated) */
+.marquee{
+  width:100%;
+  overflow:hidden;
+  border-radius:10px;
+  border:1px solid rgba(12,24,40,0.04);
+  background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));
+  padding:12px;
 }
 
-/* brillo técnico */
-
-.card::before{
-content:"";
-position:absolute;
-top:0;
-left:-100%;
-width:100%;
-height:100%;
-background:linear-gradient(120deg,transparent,rgba(255,255,255,0.5),transparent);
-transition:0.6s;
+/* track holds the items in a single row */
+.marquee-track{
+  display:flex;
+  gap:16px;
+  align-items:center;
+  will-change:transform;
+  /* continuous scroll animation: translateX from 0 to -50% (because we duplicate items) */
+  animation:scroll-left linear infinite;
+  animation-duration:18s; /* adjust speed */
+  animation-play-state:running;
 }
 
-.card:hover::before{
-left:100%;
+/* keyframes move track to left */
+@keyframes scroll-left{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(-50%); } /* because we duplicate children to ensure seamless loop */
 }
 
-/* hover elegante */
-
-.card:hover{
-transform:translateY(-8px);
-box-shadow:0 20px 45px rgba(0,0,0,0.15);
+/* each visual tile inside marquee */
+.tile{
+  min-width:320px; max-width:420px;
+  height:180px;
+  border-radius:8px;
+  overflow:hidden;
+  background:#0b1220;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  box-shadow: 0 8px 20px rgba(12,24,40,0.08);
 }
 
-.card h3{
-margin-top:0;
-color:#0f1c2e;
+/* media inside tile: image or video */
+.tile img, .tile video{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  pointer-events:none; /* allow the container to receive pointer events */
 }
 
-.card p{
-color:#555;
-line-height:1.5;
+/* paused state */
+.marquee.paused .marquee-track{
+  animation-play-state:paused !important;
 }
 
-.card img{
-width:100%;
-border-radius:8px;
-margin-top:15px;
+/* overlay play/pause indicator */
+.tile .indicator{
+  position:absolute;
+  left:8px; top:8px;
+  background:rgba(0,0,0,0.45);
+  color:white;
+  font-size:12px;
+  padding:6px 8px;
+  border-radius:999px;
+  display:flex; gap:8px; align-items:center;
 }
 
-/* animación al aparecer */
-
-.card{
-opacity:0;
-transform:translateY(30px);
-animation:fadeUp 1s forwards;
-}
-
-.card:nth-child(2){
-animation-delay:0.2s;
-}
-
-.card:nth-child(3){
-animation-delay:0.4s;
-}
-
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
+/* small controls hint */
+.controls-hint{
+  color:#43607f; font-size:0.92rem; margin-top:10px;
 }
 
 /* footer */
-
 footer{
-text-align:center;
-padding:50px;
-color:#777;
-font-size:14px;
-margin-top:40px;
+  padding:40px 20px;
+  color:#40607f;
+  text-align:center;
+  font-size:0.95rem;
 }
 
-footer::before{
-content:"";
-display:block;
-width:80px;
-height:2px;
-background:#3aa6ff;
-margin:0 auto 20px;
+/* responsive tweaks */
+@media (min-width:900px){
+  .projects{ grid-template-columns:1fr; }
+  .tile{ height:220px; min-width:360px; }
 }
-
+@media (max-width:520px){
+  header{ padding:48px 12px }
+  header h1{ font-size:28px }
+  .tile{ height:160px; min-width:260px }
+  .marquee-track{ gap:12px }
+}
 </style>
 </head>
 
 <body>
 
 <nav>
-<div><b>PORTAFOLIO</b></div>
-<span>Ingeniería • Simulación • Modelado</span>
+  <div class="brand">SEBASTIÁN MEDINA</div>
+  <div class="small">Ingeniería • Simulación • Modelado</div>
 </nav>
 
 <header>
-<h1>Sebastián Medina</h1>
-<p>Ingeniería • Simulación • Modelado</p>
+  <div class="header-shape" aria-hidden="true"></div>
+  <h1>Sebastián Medina</h1>
+  <p>Ingeniero Civil Mecánico — Simulaciones por elements finitos, CFD y modelos térmicos.</p>
 </header>
 
-<div class="container">
+<main class="container">
 
-<h2>Sobre mí</h2>
+  <section class="about">
+    <h2>Sobre mí</h2>
+    <p>
+      Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico y modelado 3D. Manejo de Ansys, Autodesk Inventor, procesamiento de datos y programación para post-procesado. En este portafolio encontrarás proyectos seleccionados con resultados, gifs y archivos técnicos.
+    </p>
+  </section>
 
-<p>
-Ingeniero Civil Mecánico titulado de la Universidad Técnica Federico Santa María. Poseo amplios conocimientos del uso de software para simulaciones de ingeniería y modelado 3D como Autodesk inventor y Ansys. Entre las simulaciones realizadas se encuentran simulaciones termicas, de viento, esfuerzos, entre otras. Además, cuento con las competencias para un uso intermedio de Excel y lenguaje de programación. Mi objetivo es perfeccionar y ampliar mi conocimiento, habilidades técnicas y competencias interpersonales en el ámbito de la ingeniería, logrando un desarrollo continuo y destacado en mi carrera profesional, reconociendo que cada trabajo o proyecto contribuye significativamente a este crecimiento.
-Este portafolio muestra algunos proyectos desarrollados en simulación, análisis
-numérico y modelado.
-</p>
+  <section class="projects">
+    <h2>Proyectos seleccionados</h2>
 
-<h2>Proyectos</h2>
+    <!-- ========== Proyecto 1 ========== -->
+    <article class="card" id="proj-1">
+      <div class="meta">Análisis estructural — Flexible submarino</div>
+      <h3>Análisis de esfuerzos en casco flexible submarino</h3>
+      <p>Simulación de esfuerzos en un casco flexible bajo carga hidrostática y oleaje. Mallado no estructurado, condiciones de contorno dinámicas y verificación de tensiones máximas.</p>
 
-<div class="projects">
+      <!-- marquee: replace srcs with tus archivos -->
+      <div class="marquee" data-speed="18">
+        <div class="marquee-track">
+          <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
+          <!-- duplicated set will be appended by JS for seamless loop -->
+        </div>
+      </div>
 
-<div class="card">
-<h3>Análisis estructural</h3>
-<p>
-Simulación de esfuerzos en una viga utilizando método de elementos finitos.
-</p>
-</div>
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+    </article>
 
-<div class="card">
-<h3>Modelo térmico</h3>
-<p>
-Simulación de transferencia de calor en sistema resistivo.
-</p>
-</div>
+    <!-- ========== Proyecto 2 ========== -->
+    <article class="card" id="proj-2">
+      <div class="meta">Aero-elasticidad / viento — Baliza submarina</div>
+      <h3>Simulación de viento y esfuerzos en baliza submarina</h3>
+      <p>Estudio de carga de viento sobre estructuras de baliza con interacción fluido-estructura y análisis de puntos críticos de fatiga.</p>
 
-<div class="card">
-<h3>Simulación dinámica</h3>
-<p>
-Modelo matemático de sistema dinámico con resolución numérica.
-</p>
-</div>
+      <div class="marquee" data-speed="22">
+        <div class="marquee-track">
+          <div class="tile" data-type="img"><img src="assets/baliza/slide1.gif" alt="Baliza - resultado 1"></div>
+          <div class="tile" data-type="img"><img src="assets/baliza/slide2.gif" alt="Baliza - resultado 2"></div>
+          <div class="tile" data-type="img"><img src="assets/baliza/slide3.gif" alt="Baliza - resultado 3"></div>
+        </div>
+      </div>
 
-</div>
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+    </article>
 
-</div>
+    <!-- ========== Proyecto 3 ========== -->
+    <article class="card" id="proj-3">
+      <div class="meta">Transferencia térmica — Cama caliente impresora 3D</div>
+      <h3>Simulación térmica: cama caliente de impresora 3D</h3>
+      <p>Análisis de distribución de temperatura, tiempos de estabilización y optimización del patrón de calentamiento en cama caliente.</p>
+
+      <div class="marquee" data-speed="16">
+        <div class="marquee-track">
+          <div class="tile" data-type="img"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
+        </div>
+      </div>
+
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+    </article>
+
+  </section>
+
+</main>
 
 <footer>
-Contacto: sebastian.medinar@sansano.usm.cl
+  Contacto: <a href="mailto:sebastian.medinar@sansano.usm.cl">sebastian.medinar@sansano.usm.cl</a>
 </footer>
 
+<script>
+/*
+  Marquee engine
+  - Duplica los elementos internos de cada .marquee-track para tener un loop continuo
+  - Controla animación CSS (play/pause)
+  - Implementa pointer drag cuando está pausado (mouse/touch)
+  - Click / pointerdown pausa y permite arrastrar; pointerup sin movimiento resume
+*/
+
+document.querySelectorAll('.marquee').forEach(initMarquee);
+
+function initMarquee(marquee){
+  const track = marquee.querySelector('.marquee-track');
+
+  // duplicate children so animation can loop seamlessly (we translate -50%)
+  const children = Array.from(track.children);
+  children.forEach(ch => track.appendChild(ch.cloneNode(true)));
+
+  // initial animation duration can be customized via data-speed (seconds)
+  const speed = parseFloat(marquee.dataset.speed) || 18;
+  track.style.animationDuration = speed + 's';
+
+  // state
+  let isPaused = false;
+  let pointerDown = false;
+  let startX = 0;
+  let currentTrans = 0; // px
+  let moved = false;
+
+  // on pointerdown: pause and start drag
+  marquee.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    marquee.setPointerCapture && marquee.setPointerCapture(e.pointerId);
+    pointerDown = true;
+    moved = false;
+    startX = e.clientX || e.touches && e.touches[0].clientX || 0;
+
+    // compute computed transform of track (if any)
+    const style = window.getComputedStyle(track);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    currentTrans = matrix.m41 || 0;
+
+    // pause animation
+    marquee.classList.add('paused');
+    isPaused = true;
+  });
+
+  // pointermove: when dragging, update transform (restrict to horizontal)
+  window.addEventListener('pointermove', (e) => {
+    if(!pointerDown) return;
+    const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    const dx = x - startX;
+    if(Math.abs(dx) > 3) moved = true;
+
+    // update transform: currentTrans + dx
+    track.style.transform = `translateX(${currentTrans + dx}px)`;
+  });
+
+  // pointerup: release; if there was no movement -> toggle resume; if moved, keep paused (user can tap again to resume)
+  window.addEventListener('pointerup', (e) => {
+    if(!pointerDown) return;
+    pointerDown = false;
+
+    marquee.releasePointerCapture && marquee.releasePointerCapture(e.pointerId);
+
+    if(!moved){
+      // quick tap: toggle resume / pause
+      if(isPaused){
+        marquee.classList.remove('paused');
+        track.style.transform = ''; // let animation take over (may jump a bit)
+        isPaused = false;
+      } else {
+        marquee.classList.add('paused');
+        isPaused = true;
+      }
+    } else {
+      // user dragged: remain paused so they can inspect; future tap will resume
+      // leave track.style.transform as the manual position
+    }
+  });
+
+  // prevent vertical scroll while user is dragging on touch devices when pointer is down
+  marquee.addEventListener('touchmove', (e) => {
+    if(pointerDown && moved) e.preventDefault();
+  }, {passive:false});
+
+  // double-click or double-tap quick resume: make a small button behavior on double click
+  marquee.addEventListener('dblclick', (e) => {
+    marquee.classList.remove('paused');
+    track.style.transform = '';
+    isPaused = false;
+  });
+
+  // keyboard accessibility: when marquee focused, space toggles pause
+  marquee.tabIndex = 0;
+  marquee.addEventListener('keydown', (e) => {
+    if(e.key === ' ' || e.key === 'Spacebar'){
+      e.preventDefault();
+      if(marquee.classList.contains('paused')){
+        marquee.classList.remove('paused');
+        track.style.transform = '';
+      } else {
+        marquee.classList.add('paused');
+      }
+    }
+  });
+
+  // ensure that resizing doesn't break loop: clear inline transform when animation runs
+  window.addEventListener('resize', () => {
+    if(!marquee.classList.contains('paused')) track.style.transform = '';
+  });
+}
+</script>
 </body>
 </html>
