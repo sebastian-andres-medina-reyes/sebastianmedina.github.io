@@ -118,6 +118,7 @@ h2{
   border:1px solid rgba(12,24,40,0.04);
   background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));
   padding:12px;
+  touch-action: none; /* allow custom pointer handling for touch */
 }
 
 /* track holds the items in a single row */
@@ -128,7 +129,7 @@ h2{
   will-change:transform;
   /* continuous scroll animation: translateX from 0 to -50% (because we duplicate items) */
   animation:scroll-left linear infinite;
-  animation-duration:18s; /* adjust speed */
+  animation-duration:18s; /* will be overridden per-marquee by JS */
   animation-play-state:running;
 }
 
@@ -224,6 +225,7 @@ footer{
     <h2>Sobre mí</h2>
     <p>
       Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico, CFD y modelado 3D. Manejo de Ansys, Autodesk Inventor, Microsoft Excel y lenguaje de programación. En este portafolio encontrarás proyectos seleccionados con material visual de interés.
+    </p>
   </section>
 
   <section class="projects">
@@ -234,27 +236,35 @@ footer{
       <h3>Análisis de esfuerzos en flexible submarino</h3>
       <p>Simulación de esfuerzos en un flexible bajo carga hidrostática, gravedad y torsión.</p>
 
-      <!-- marquee: replace srcs with tus archivos -->
       <div class="marquee" data-speed="18">
         <div class="marquee-track">
           <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
           <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
           <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
-          <!-- duplicated set will be appended by JS for seamless loop -->
         </div>
       </div>
     </article>
 
-    <!-- ========== Proyecto 2 ========== -->
+    <!-- ========== Proyecto 2 — BALIZA (USANDO TUS MP4) ========== -->
     <article class="card" id="proj-2">
       <h3>Simulación de viento y esfuerzos en baliza marítima</h3>
       <p>Estudio de carga de viento sobre estructuras de baliza con interacción fluido-estructura y análisis de puntos críticos.</p>
 
       <div class="marquee" data-speed="22">
         <div class="marquee-track">
-          <div class="tile" data-type="img"><img src="assets/baliza/slide1.gif" alt="Baliza - resultado 1"></div>
-          <div class="tile" data-type="img"><img src="assets/baliza/slide2.gif" alt="Baliza - resultado 2"></div>
-          <div class="tile" data-type="img"><img src="assets/baliza/slide3.gif" alt="Baliza - resultado 3"></div>
+          <!-- Uso de tus 4 vídeos mp4 -->
+          <div class="tile" data-type="video">
+            <video autoplay muted loop playsinline preload="metadata" src="assets/baliza/baliza1.mp4"></video>
+          </div>
+          <div class="tile" data-type="video">
+            <video autoplay muted loop playsinline preload="metadata" src="assets/baliza/baliza2.mp4"></video>
+          </div>
+          <div class="tile" data-type="video">
+            <video autoplay muted loop playsinline preload="metadata" src="assets/baliza/baliza3.mp4"></video>
+          </div>
+          <div class="tile" data-type="video">
+            <video autoplay muted loop playsinline preload="metadata" src="assets/baliza/baliza4.mp4"></video>
+          </div>
         </div>
       </div>
     </article>
@@ -283,11 +293,13 @@ footer{
 
 <script>
 /*
-  Marquee engine
+  Marquee engine (mejorado)
   - Duplica los elementos internos de cada .marquee-track para tener un loop continuo
   - Controla animación CSS (play/pause)
   - Implementa pointer drag cuando está pausado (mouse/touch)
-  - Click / pointerdown pausa y permite arrastrar; pointerup sin movimiento resume
+  - pointerdown + arrastrar = mover la tira en tiempo real (restricción horizontal)
+  - pointerup: si hubo arrastre la animación se reanuda desde la posición actual
+  - tap corto (sin arrastre) = toggle pause/resume
 */
 
 document.querySelectorAll('.marquee').forEach(initMarquee);
@@ -297,98 +309,161 @@ function initMarquee(marquee){
 
   // duplicate children so animation can loop seamlessly (we translate -50%)
   const children = Array.from(track.children);
-  children.forEach(ch => track.appendChild(ch.cloneNode(true)));
+  children.forEach(ch => {
+    const clone = ch.cloneNode(true);
+    track.appendChild(clone);
+  });
 
-  // initial animation duration can be customized via data-speed (seconds)
+  // ensure video clones autoplay
+  const videos = track.querySelectorAll('video');
+  videos.forEach(v => {
+    // try to play programmatically (muted videos usually allowed)
+    v.play().catch(()=>{/* ignore play errors */});
+  });
+
+  // set animation duration from data-speed
   const speed = parseFloat(marquee.dataset.speed) || 18;
   track.style.animationDuration = speed + 's';
 
-  // state
-  let isPaused = false;
+  // internal state
   let pointerDown = false;
   let startX = 0;
-  let currentTrans = 0; // px
+  let lastX = 0;
   let moved = false;
+  let currentTrans = 0; // px
+  const threshold = 6; // px to consider as "drag"
 
-  // on pointerdown: pause and start drag
+  // helper to get current numeric translateX of the track (reads computed style)
+  function getComputedTranslateX(el){
+    const style = window.getComputedStyle(el);
+    const transform = style.transform || style.webkitTransform || 'none';
+    if(transform === 'none') return 0;
+    const matrix = new DOMMatrixReadOnly(transform);
+    return matrix.m41;
+  }
+
+  // Pause animation and freeze visual position: compute current translation from animation (getComputedStyle)
+  function pauseAndFreeze(){
+    // get the instant translateX (animated value)
+    const tx = getComputedTranslateX(track);
+    // pause CSS animation
+    marquee.classList.add('paused');
+    // apply inline transform to freeze at current visual position
+    track.style.transform = `translateX(${tx}px)`;
+    currentTrans = tx;
+  }
+
+  // Resume animation from current position: remove inline transform and resume animation.
+  function resumeFromPosition(){
+    // remove inline transform so CSS animation takes over
+    track.style.transform = '';
+    marquee.classList.remove('paused');
+
+    // small safety: after a tiny timeout, clear transform to allow animation continuity
+    // (this avoids a flash in some browsers)
+    setTimeout(()=> {
+      track.style.transform = '';
+    }, 20);
+  }
+
+  // pointerdown on marquee
   marquee.addEventListener('pointerdown', (e) => {
     e.preventDefault();
-    marquee.setPointerCapture && marquee.setPointerCapture(e.pointerId);
     pointerDown = true;
     moved = false;
-    startX = e.clientX || e.touches && e.touches[0].clientX || 0;
+    startX = e.clientX;
+    lastX = startX;
 
-    // compute computed transform of track (if any)
-    const style = window.getComputedStyle(track);
-    const matrix = new DOMMatrixReadOnly(style.transform);
-    currentTrans = matrix.m41 || 0;
+    // pause and freeze at current animation frame
+    pauseAndFreeze();
 
-    // pause animation
-    marquee.classList.add('paused');
-    isPaused = true;
+    // capture pointer so we get pointermove on this element regardless
+    if(marquee.setPointerCapture) try{ marquee.setPointerCapture(e.pointerId); } catch(e){}
   });
 
-  // pointermove: when dragging, update transform (restrict to horizontal)
-  window.addEventListener('pointermove', (e) => {
+  // pointermove: only act when pointerDown
+  marquee.addEventListener('pointermove', (e) => {
     if(!pointerDown) return;
-    const x = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    const x = e.clientX;
     const dx = x - startX;
-    if(Math.abs(dx) > 3) moved = true;
+    if(Math.abs(dx) > threshold) moved = true;
 
-    // update transform: currentTrans + dx
-    track.style.transform = `translateX(${currentTrans + dx}px)`;
-  });
+    // compute transform: base (currentTrans) + dx
+    const tx = currentTrans + dx;
 
-  // pointerup: release; if there was no movement -> toggle resume; if moved, keep paused (user can tap again to resume)
-  window.addEventListener('pointerup', (e) => {
+    // apply transform (restrict to horizontal movement)
+    track.style.transform = `translateX(${tx}px)`;
+    lastX = x;
+  }, {passive:false});
+
+  // pointerup / pointercancel: determine tap vs drag
+  marquee.addEventListener('pointerup', (e) => {
     if(!pointerDown) return;
     pointerDown = false;
 
-    marquee.releasePointerCapture && marquee.releasePointerCapture(e.pointerId);
+    // release pointer capture
+    if(marquee.releasePointerCapture) try{ marquee.releasePointerCapture(e.pointerId); } catch(e){}
 
-    if(!moved){
-      // quick tap: toggle resume / pause
-      if(isPaused){
-        marquee.classList.remove('paused');
-        track.style.transform = ''; // let animation take over (may jump a bit)
-        isPaused = false;
+    const endX = e.clientX;
+    const totalDx = endX - startX;
+
+    if(!moved && Math.abs(totalDx) < threshold){
+      // quick tap: toggle pause/resume
+      if(marquee.classList.contains('paused')){
+        resumeFromPosition();
       } else {
-        marquee.classList.add('paused');
-        isPaused = true;
+        pauseAndFreeze();
       }
-    } else {
-      // user dragged: remain paused so they can inspect; future tap will resume
-      // leave track.style.transform as the manual position
+      return;
+    }
+
+    // If user dragged: we want to resume animation from the visual position.
+    // Removing the inline transform will let CSS animation continue — there may be a small jump
+    // in some browsers, but this is the simplest robust approach.
+    // Clear inline transform and resume animation:
+    // First, compute the transform value currently set (we used track.style.transform)
+    // then remove transform and resume animation
+    // Small trick: force reflow to help CSS resume smoothly
+    const computed = getComputedTranslateX(track);
+    // set inline transform to current computed to "lock" (already set)
+    track.style.transform = `translateX(${computed}px)`;
+    // then after a small timeout, remove transform and resume
+    setTimeout(()=> {
+      resumeFromPosition();
+    }, 8);
+  });
+
+  marquee.addEventListener('pointercancel', (e) => {
+    if(pointerDown){
+      pointerDown = false;
+      resumeFromPosition();
     }
   });
 
-  // prevent vertical scroll while user is dragging on touch devices when pointer is down
+  // prevent vertical page scroll while touching and dragging horizontally
   marquee.addEventListener('touchmove', (e) => {
     if(pointerDown && moved) e.preventDefault();
   }, {passive:false});
 
-  // double-click or double-tap quick resume: make a small button behavior on double click
+  // dblclick to force resume
   marquee.addEventListener('dblclick', (e) => {
-    marquee.classList.remove('paused');
-    track.style.transform = '';
-    isPaused = false;
+    resumeFromPosition();
   });
 
-  // keyboard accessibility: when marquee focused, space toggles pause
+  // keyboard accessibility: space toggles pause
   marquee.tabIndex = 0;
   marquee.addEventListener('keydown', (e) => {
     if(e.key === ' ' || e.key === 'Spacebar'){
       e.preventDefault();
       if(marquee.classList.contains('paused')){
-        marquee.classList.remove('paused');
-        track.style.transform = '';
+        resumeFromPosition();
       } else {
-        marquee.classList.add('paused');
+        pauseAndFreeze();
       }
     }
   });
 
-  // ensure that resizing doesn't break loop: clear inline transform when animation runs
+  // when window resizes, if not paused, clear inline transform
   window.addEventListener('resize', () => {
     if(!marquee.classList.contains('paused')) track.style.transform = '';
   });
