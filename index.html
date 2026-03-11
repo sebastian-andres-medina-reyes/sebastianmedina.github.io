@@ -6,7 +6,6 @@
 <title>Portafolio — Sebastián Medina</title>
 
 <style>
-/* ========== Reset / utilities ========== */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -19,7 +18,7 @@ body{
   line-height:1.5;
 }
 
-/* ========== Top nav ========== */
+/* Top nav */
 nav{
   display:flex;
   justify-content:space-between;
@@ -36,7 +35,7 @@ nav{
 nav .brand{font-weight:700;letter-spacing:0.6px}
 nav .small{opacity:0.85;font-size:0.92rem}
 
-/* ========== Header ========== */
+/* Header */
 header{
   text-align:center;
   padding:80px 20px 60px;
@@ -47,8 +46,6 @@ header{
 }
 header h1{font-size:36px;margin:0 0 8px}
 header p{opacity:0.9;margin:0;font-size:1.05rem}
-
-/* decorative gradient shapes */
 .header-shape{
   position:absolute;
   right:-120px;
@@ -76,7 +73,7 @@ h2{
   padding-bottom:10px;
 }
 
-/* about text */
+/* about */
 .about p{
   color:#24334a;
   background:linear-gradient(90deg, rgba(250,250,252,1), rgba(250,250,252,1));
@@ -85,15 +82,13 @@ h2{
   box-shadow:0 6px 20px rgba(12,24,48,0.06);
 }
 
-/* ========== Projects grid ========== */
+/* projects */
 .projects{
   display:grid;
   grid-template-columns:1fr;
   gap:28px;
   margin-top:18px;
 }
-
-/* card */
 .card{
   background:linear-gradient(180deg,#ffffff,#fbfdff);
   border-radius:12px;
@@ -105,12 +100,9 @@ h2{
 .card:hover{ transform:translateY(-8px); box-shadow:0 28px 60px rgba(9,20,40,0.09); }
 .card h3{ margin:0 0 8px; color:#062033; }
 .card p{ margin:0 0 12px; color:#334a63; }
-
-/* small meta line */
 .meta{ font-size:0.9rem; color:#54708a; margin-bottom:8px; }
 
-/* ========== Marquee (smooth looping scroller) ========== */
-/* .marquee is the visible frame; .marquee-track is the long row (duplicated) */
+/* marquee frame */
 .marquee{
   width:100%;
   overflow:hidden;
@@ -118,28 +110,18 @@ h2{
   border:1px solid rgba(12,24,40,0.04);
   background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));
   padding:12px;
-  touch-action: none; /* allow custom pointer handling for touch */
+  touch-action:none; /* handle gestures ourselves */
 }
 
-/* track holds the items in a single row */
+/* track flex row */
 .marquee-track{
   display:flex;
   gap:16px;
   align-items:center;
   will-change:transform;
-  /* continuous scroll animation: translateX from 0 to -50% (because we duplicate items) */
-  animation:scroll-left linear infinite;
-  animation-duration:18s; /* will be overridden per-marquee by JS */
-  animation-play-state:running;
 }
 
-/* keyframes move track to left */
-@keyframes scroll-left{
-  from{ transform:translateX(0); }
-  to{ transform:translateX(-50%); } /* because we duplicate children to ensure seamless loop */
-}
-
-/* each visual tile inside marquee */
+/* each tile */
 .tile{
   min-width:320px; max-width:420px;
   height:180px;
@@ -153,33 +135,16 @@ h2{
   box-shadow: 0 8px 20px rgba(12,24,40,0.08);
 }
 
-/* media inside tile: image or video */
+/* media */
 .tile img, .tile video{
   display:block;
   width:100%;
   height:100%;
   object-fit:cover;
-  pointer-events:none; /* allow the container to receive pointer events */
+  pointer-events:none;
 }
 
-/* paused state */
-.marquee.paused .marquee-track{
-  animation-play-state:paused !important;
-}
-
-/* overlay play/pause indicator */
-.tile .indicator{
-  position:absolute;
-  left:8px; top:8px;
-  background:rgba(0,0,0,0.45);
-  color:white;
-  font-size:12px;
-  padding:6px 8px;
-  border-radius:999px;
-  display:flex; gap:8px; align-items:center;
-}
-
-/* small controls hint */
+/* hint */
 .controls-hint{
   color:#43607f; font-size:0.92rem; margin-top:10px;
 }
@@ -194,7 +159,6 @@ footer{
 
 /* responsive tweaks */
 @media (min-width:900px){
-  .projects{ grid-template-columns:1fr; }
   .tile{ height:220px; min-width:360px; }
 }
 @media (max-width:520px){
@@ -231,63 +195,66 @@ footer{
   <section class="projects">
     <h2>Proyectos seleccionados</h2>
 
-    <!-- ========== Proyecto 1 ========== -->
+    <!-- Proyecto 1 -->
     <article class="card" id="proj-1">
       <h3>Análisis de esfuerzos en flexible submarino</h3>
       <p>Simulación de esfuerzos en un flexible bajo carga hidrostática, gravedad y torsión.</p>
 
       <div class="marquee" data-speed="18">
         <div class="marquee-track">
-          <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
-          <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
-          <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
+          <div class="tile"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
+          <div class="tile"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
+          <div class="tile"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
         </div>
       </div>
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
     </article>
 
-    <!-- ========== Proyecto 2 — BALIZA (USANDO TUS MP4) ========== -->
-   <div class="marquee" data-speed="22">
-  <div class="marquee-track">
+    <!-- Proyecto 2 (Baliza) - usando Baliza1..Baliza4 -->
+    <article class="card" id="proj-2">
+      <h3>Simulación de viento y esfuerzos en baliza marítima</h3>
+      <p>Estudio de carga de viento sobre estructuras de baliza con interacción fluido-estructura y análisis de puntos críticos.</p>
 
-    <div class="tile">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="assets/baliza/Baliza1.mp4" type="video/mp4">
-      </video>
-    </div>
+      <div class="marquee" data-speed="22">
+        <div class="marquee-track">
+          <div class="tile">
+            <video muted loop playsinline preload="metadata">
+              <source src="assets/baliza/Baliza1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="tile">
+            <video muted loop playsinline preload="metadata">
+              <source src="assets/baliza/Baliza2.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="tile">
+            <video muted loop playsinline preload="metadata">
+              <source src="assets/baliza/Baliza3.mp4" type="video/mp4">
+            </video>
+          </div>
+          <div class="tile">
+            <video muted loop playsinline preload="metadata">
+              <source src="assets/baliza/Baliza4.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+    </article>
 
-    <div class="tile">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="assets/baliza/Baliza2.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="assets/baliza/Baliza3.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="tile">
-      <video autoplay muted loop playsinline preload="auto">
-        <source src="assets/baliza/Baliza4.mp4" type="video/mp4">
-      </video>
-    </div>
-
-  </div>
-</div>
-
-    <!-- ========== Proyecto 3 ========== -->
+    <!-- Proyecto 3 -->
     <article class="card" id="proj-3">
       <h3>Simulación térmica: cama caliente de impresora 3D</h3>
       <p>Análisis de distribución de temperatura en cama caliente.</p>
 
       <div class="marquee" data-speed="16">
         <div class="marquee-track">
-          <div class="tile" data-type="img"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
-          <div class="tile" data-type="img"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
-          <div class="tile" data-type="img"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
+          <div class="tile"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
+          <div class="tile"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
+          <div class="tile"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
         </div>
       </div>
+      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
     </article>
 
   </section>
@@ -300,180 +267,180 @@ footer{
 
 <script>
 /*
-  Marquee engine (mejorado)
-  - Duplica los elementos internos de cada .marquee-track para tener un loop continuo
-  - Controla animación CSS (play/pause)
-  - Implementa pointer drag cuando está pausado (mouse/touch)
-  - pointerdown + arrastrar = mover la tira en tiempo real (restricción horizontal)
-  - pointerup: si hubo arrastre la animación se reanuda desde la posición actual
-  - tap corto (sin arrastre) = toggle pause/resume
+  JS marquee basado en requestAnimationFrame (sin CSS animation)
+  - Duplicamos los items para loop seamless
+  - speed (seconds) viene de data-speed: tiempo en segundos para que avance un "conjunto" completo
+  - pos es el desplazamiento en px (aumenta → movimiento hacia la izquierda)
+  - drag: pointerdown + move → permite arrastrar mientras se mantiene pulsado
+  - tap corto (sin mover) => toggle pause/resume
 */
 
-document.querySelectorAll('.marquee').forEach(initMarquee);
+document.querySelectorAll('.marquee').forEach(setupMarquee);
 
-function initMarquee(marquee){
+function setupMarquee(marquee){
   const track = marquee.querySelector('.marquee-track');
 
-  // duplicate children so animation can loop seamlessly (we translate -50%)
-  const children = Array.from(track.children);
-  children.forEach(ch => {
-    const clone = ch.cloneNode(true);
-    track.appendChild(clone);
-  });
+  // clone children to create seamless loop
+  const items = Array.from(track.children);
+  items.forEach(item => track.appendChild(item.cloneNode(true)));
 
-  // ensure video clones autoplay
-  const videos = track.querySelectorAll('video');
-  videos.forEach(v => {
-    // try to play programmatically (muted videos usually allowed)
-    v.play().catch(()=>{/* ignore play errors */});
-  });
+  // get single-set width (after appending clones)
+  // singleWidth = half of full scrollWidth (original set length)
+  // but we must measure the width of the original set. To do that, sum widths of original children.
+  function computeSingleWidth(){
+    const origChildren = Array.from(track.children).slice(0, items.length);
+    let w = 0;
+    origChildren.forEach(ch => w += ch.getBoundingClientRect().width + getGapValue(track));
+    return w;
+  }
 
-  // set animation duration from data-speed
-  const speed = parseFloat(marquee.dataset.speed) || 18;
-  track.style.animationDuration = speed + 's';
-
-  // internal state
-  let pointerDown = false;
-  let startX = 0;
-  let lastX = 0;
-  let moved = false;
-  let currentTrans = 0; // px
-  const threshold = 6; // px to consider as "drag"
-
-  // helper to get current numeric translateX of the track (reads computed style)
-  function getComputedTranslateX(el){
+  // get gap between flex items (computed)
+  function getGapValue(el){
     const style = window.getComputedStyle(el);
-    const transform = style.transform || style.webkitTransform || 'none';
-    if(transform === 'none') return 0;
-    const matrix = new DOMMatrixReadOnly(transform);
-    return matrix.m41;
+    const gap = parseFloat(style.columnGap || style.gap || 0);
+    return isNaN(gap) ? 0 : gap;
   }
 
-  // Pause animation and freeze visual position: compute current translation from animation (getComputedStyle)
-  function pauseAndFreeze(){
-    // get the instant translateX (animated value)
-    const tx = getComputedTranslateX(track);
-    // pause CSS animation
-    marquee.classList.add('paused');
-    // apply inline transform to freeze at current visual position
-    track.style.transform = `translateX(${tx}px)`;
-    currentTrans = tx;
+  // ensure videos try to play (muted)
+  track.querySelectorAll('video').forEach(v=>{
+    v.muted = true;
+    v.playsInline = true;
+    // try to load & play (some browsers require user gesture)
+    v.load();
+    v.play().catch(()=>{ /* will play after user gesture */ });
+  });
+
+  // state variables
+  let singleWidth = 0;
+  let pos = 0; // px (0..singleWidth)
+  let lastTime = null;
+  let rafId = null;
+  let running = true; // auto-scroll running
+  const duration = parseFloat(marquee.dataset.speed) || 18; // seconds to move one singleWidth
+  let speed = 0; // px per second (computed)
+  let pointerDown = false;
+  let dragStartX = 0;
+  let dragStartPos = 0;
+  const DRAG_THRESHOLD = 6; // px to detect move
+  let movedWhileDown = false;
+
+  // measure sizes
+  function recalc(){
+    singleWidth = computeSingleWidth();
+    if(singleWidth <= 0) singleWidth = track.scrollWidth / 2 || 1;
+    speed = singleWidth / Math.max(duration, 0.1); // px per second
   }
 
-  // Resume animation from current position: remove inline transform and resume animation.
-  function resumeFromPosition(){
-    // remove inline transform so CSS animation takes over
-    track.style.transform = '';
-    marquee.classList.remove('paused');
+  // initial calc after images/videos loaded
+  recalc();
+  // also recalc on load/resize (videos/images may change size)
+  window.addEventListener('resize', () => {
+    recalc();
+  });
 
-    // small safety: after a tiny timeout, clear transform to allow animation continuity
-    // (this avoids a flash in some browsers)
-    setTimeout(()=> {
-      track.style.transform = '';
-    }, 20);
+  // helper: set transform according to pos
+  function applyTransform(){
+    // normalize pos to [0, singleWidth)
+    let p = pos % singleWidth;
+    if(p < 0) p += singleWidth;
+    // translate negative p (move left)
+    track.style.transform = `translateX(${-p}px)`;
   }
 
-  // pointerdown on marquee
-  marquee.addEventListener('pointerdown', (e) => {
+  // animation loop
+  function step(ts){
+    if(lastTime === null) lastTime = ts;
+    const dt = (ts - lastTime) / 1000; // seconds
+    lastTime = ts;
+
+    if(running && !pointerDown){
+      pos += speed * dt; // advance to left
+      // keep pos bounded to prevent overflow
+      if(pos > 1e9) pos = pos % singleWidth;
+      applyTransform();
+    }
+    rafId = requestAnimationFrame(step);
+  }
+
+  // start loop
+  rafId = requestAnimationFrame(step);
+
+  // pointer handlers
+  marquee.addEventListener('pointerdown', (e)=>{
     e.preventDefault();
     pointerDown = true;
-    moved = false;
-    startX = e.clientX;
-    lastX = startX;
-
-    // pause and freeze at current animation frame
-    pauseAndFreeze();
-
-    // capture pointer so we get pointermove on this element regardless
+    dragStartX = e.clientX;
+    dragStartPos = pos;
+    movedWhileDown = false;
+    // pause auto-scrolling (but keep lastTime for resume)
+    running = false;
+    // capture pointer
     if(marquee.setPointerCapture) try{ marquee.setPointerCapture(e.pointerId); } catch(e){}
   });
 
-  // pointermove: only act when pointerDown
-  marquee.addEventListener('pointermove', (e) => {
+  marquee.addEventListener('pointermove', (e)=>{
     if(!pointerDown) return;
-    const x = e.clientX;
-    const dx = x - startX;
-    if(Math.abs(dx) > threshold) moved = true;
-
-    // compute transform: base (currentTrans) + dx
-    const tx = currentTrans + dx;
-
-    // apply transform (restrict to horizontal movement)
-    track.style.transform = `translateX(${tx}px)`;
-    lastX = x;
+    const dx = e.clientX - dragStartX;
+    if(Math.abs(dx) > DRAG_THRESHOLD) movedWhileDown = true;
+    // Update pos: dragging right (dx>0) should move content right -> decrease pos
+    pos = dragStartPos - dx;
+    applyTransform();
   }, {passive:false});
 
-  // pointerup / pointercancel: determine tap vs drag
-  marquee.addEventListener('pointerup', (e) => {
+  marquee.addEventListener('pointerup', (e)=>{
     if(!pointerDown) return;
     pointerDown = false;
-
-    // release pointer capture
+    // release capture
     if(marquee.releasePointerCapture) try{ marquee.releasePointerCapture(e.pointerId); } catch(e){}
-
-    const endX = e.clientX;
-    const totalDx = endX - startX;
-
-    if(!moved && Math.abs(totalDx) < threshold){
-      // quick tap: toggle pause/resume
-      if(marquee.classList.contains('paused')){
-        resumeFromPosition();
-      } else {
-        pauseAndFreeze();
-      }
-      return;
-    }
-
-    // If user dragged: we want to resume animation from the visual position.
-    // Removing the inline transform will let CSS animation continue — there may be a small jump
-    // in some browsers, but this is the simplest robust approach.
-    // Clear inline transform and resume animation:
-    // First, compute the transform value currently set (we used track.style.transform)
-    // then remove transform and resume animation
-    // Small trick: force reflow to help CSS resume smoothly
-    const computed = getComputedTranslateX(track);
-    // set inline transform to current computed to "lock" (already set)
-    track.style.transform = `translateX(${computed}px)`;
-    // then after a small timeout, remove transform and resume
-    setTimeout(()=> {
-      resumeFromPosition();
-    }, 8);
-  });
-
-  marquee.addEventListener('pointercancel', (e) => {
-    if(pointerDown){
-      pointerDown = false;
-      resumeFromPosition();
+    // if it was a tap (no significant move) => toggle pause/resume
+    if(!movedWhileDown){
+      running = !running; // toggle play state
+      // if resuming, also ensure lastTime is reset so animation steps correctly
+      lastTime = null;
+    } else {
+      // if user dragged and released, resume auto-scroll
+      running = true;
+      lastTime = null; // reset time so dt small
     }
   });
 
-  // prevent vertical page scroll while touching and dragging horizontally
-  marquee.addEventListener('touchmove', (e) => {
-    if(pointerDown && moved) e.preventDefault();
+  marquee.addEventListener('pointercancel', ()=>{
+    pointerDown = false;
+    running = true;
+    lastTime = null;
+  });
+
+  // touchmove prevent vertical when dragging horizontally
+  marquee.addEventListener('touchmove', (e)=>{
+    if(pointerDown && movedWhileDown) e.preventDefault();
   }, {passive:false});
 
-  // dblclick to force resume
-  marquee.addEventListener('dblclick', (e) => {
-    resumeFromPosition();
+  // double-click to force resume
+  marquee.addEventListener('dblclick', ()=>{
+    running = true;
+    lastTime = null;
   });
 
-  // keyboard accessibility: space toggles pause
+  // keyboard: space toggle
   marquee.tabIndex = 0;
-  marquee.addEventListener('keydown', (e) => {
+  marquee.addEventListener('keydown', (e)=>{
     if(e.key === ' ' || e.key === 'Spacebar'){
       e.preventDefault();
-      if(marquee.classList.contains('paused')){
-        resumeFromPosition();
-      } else {
-        pauseAndFreeze();
-      }
+      running = !running;
+      lastTime = null;
     }
   });
 
-  // when window resizes, if not paused, clear inline transform
-  window.addEventListener('resize', () => {
-    if(!marquee.classList.contains('paused')) track.style.transform = '';
-  });
+  // make sure videos inside clones also play
+  // After a short delay (to allow DOM to settle) try to play videos
+  setTimeout(()=>{
+    track.querySelectorAll('video').forEach(v=>{
+      v.muted = true;
+      v.playsInline = true;
+      v.loop = true;
+      v.play().catch(()=>{ /* autoplay might be blocked until user interacts */});
+    });
+  }, 300);
 }
 </script>
 </body>
