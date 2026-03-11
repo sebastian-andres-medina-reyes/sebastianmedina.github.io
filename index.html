@@ -6,7 +6,6 @@
 <title>Portafolio — Sebastián Medina</title>
 
 <style>
-/* ---------- Base ---------- */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -17,227 +16,40 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   line-height:1.5;
-  -webkit-font-feature-settings: "liga" 1;
 }
-
-/* prevent background scroll when modal open */
 body.modal-open{overflow:hidden}
-
-/* ---------- Top nav ---------- */
-nav{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 28px;
-  background:linear-gradient(90deg, rgba(10,17,40,0.98), rgba(15,23,42,0.98));
-  color:#f7fbff;
-  gap:12px;
-  position:sticky;
-  top:0;
-  z-index:40;
-  box-shadow:0 3px 12px rgba(5,10,20,0.18);
-}
-nav .brand{font-weight:700;letter-spacing:0.6px}
-nav .small{opacity:0.85;font-size:0.92rem}
-
-/* ---------- Header ---------- */
-header{
-  text-align:center;
-  padding:80px 20px 60px;
-  background:linear-gradient(135deg,#071028,#0c2b47);
-  color:#fff;
-  position:relative;
-  overflow:hidden;
-}
-header h1{font-size:36px;margin:0 0 8px}
-header p{opacity:0.9;margin:0;font-size:1.05rem}
-.header-shape{
-  position:absolute;
-  right:-120px;
-  top:-40px;
-  width:420px;height:420px;
-  background:radial-gradient(circle at 30% 30%, rgba(58,166,255,0.14), transparent 25%),
-             radial-gradient(circle at 70% 70%, rgba(122,80,255,0.08), transparent 20%);
-  transform:rotate(20deg);
-  pointer-events:none;
-}
-
-/* ---------- Container & sections ---------- */
-.container{
-  max-width:1100px;
-  margin:30px auto;
-  padding:26px;
-}
-h2{
-  font-size:1.25rem;
-  margin:18px 0 12px;
-  color:#071028;
-  border-bottom:2px solid rgba(7,16,36,0.06);
-  padding-bottom:10px;
-}
-.about p{
-  color:#24334a;
-  background:linear-gradient(90deg, rgba(250,250,252,1), rgba(250,250,252,1));
-  padding:14px 18px;
-  border-radius:10px;
-  box-shadow:0 6px 20px rgba(12,24,48,0.06);
-}
-
-/* ---------- Cards & marquee ---------- */
-.projects{ display:grid; gap:28px; margin-top:18px; }
-.card{
-  background:linear-gradient(180deg,#ffffff,#fbfdff);
-  border-radius:12px;
-  padding:18px;
-  box-shadow:0 14px 30px rgba(9,20,40,0.06);
-  overflow:hidden;
-  transition:transform .28s ease, box-shadow .28s ease;
-}
-.card:hover{ transform:translateY(-8px); box-shadow:0 28px 60px rgba(9,20,40,0.09); }
-.card h3{ margin:0 0 8px; color:#062033; }
-.card p{ margin:0 0 12px; color:#334a63; }
-.meta{ font-size:0.9rem; color:#54708a; margin-bottom:8px; }
-
-/* marquee frame */
-.marquee{
-  width:100%;
-  overflow:hidden;
-  border-radius:10px;
-  border:1px solid rgba(12,24,40,0.04);
-  background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));
-  padding:12px;
-  touch-action:none; /* we'll handle gestures */
-}
-
-/* track flex row */
-.marquee-track{
-  display:flex;
-  gap:16px;
-  align-items:center;
-  will-change:transform;
-}
-
-/* tiles */
-.tile{
-  min-width:320px; max-width:420px;
-  height:180px;
-  border-radius:8px;
-  overflow:hidden;
-  background:#0b1220;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  box-shadow: 0 8px 20px rgba(12,24,40,0.08);
-  cursor:grab;
-  user-select:none;
-}
-
-/* visual media */
-.tile img, .tile video{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  pointer-events:none; /* let tile handle interactions */
-}
-
-/* small controls hint */
-.controls-hint{ color:#43607f; font-size:0.92rem; margin-top:10px; }
-
-/* ---------- Modal / Lightbox ---------- */
-.modal-overlay{
-  position:fixed;
-  inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(5,10,20,0.6);
-  z-index:200;
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .28s ease;
-}
-.modal-overlay.open{
-  opacity:1;
-  pointer-events:auto;
-}
-.modal-content{
-  width:calc(100vw - 48px);
-  max-width:1100px;
-  max-height:90vh;
-  background:linear-gradient(180deg,#0b1220,#071028);
-  border-radius:12px;
-  overflow:hidden;
-  transform:translateY(6px) scale(.98);
-  transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
-  box-shadow:0 30px 80px rgba(3,8,18,0.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.modal-overlay.open .modal-content{
-  transform:translateY(0) scale(1);
-}
-.modal-body{
-  position:relative;
-  width:100%;
-  height:100%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:12px;
-}
-.modal-media{
-  width:100%;
-  height:100%;
-  max-height:calc(90vh - 40px);
-  object-fit:contain;
-}
-
-/* top-right close button */
-.modal-close{
-  position:absolute;
-  right:14px;
-  top:14px;
-  z-index:5;
-  background:rgba(255,255,255,0.06);
-  color:white;
-  border:none;
-  width:44px;
-  height:44px;
-  border-radius:10px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:20px;
-  cursor:pointer;
-  transition:background .18s;
-}
-.modal-close:hover{ background:rgba(255,255,255,0.12); }
-
-/* footer */
-footer{ padding:40px 20px; color:#40607f; text-align:center; font-size:0.95rem; }
-
-/* responsive tweaks */
-@media (min-width:900px){
-  .tile{ height:220px; min-width:360px; }
-}
-@media (max-width:520px){
-  header{ padding:48px 12px }
-  header h1{ font-size:28px }
-  .tile{ height:160px; min-width:260px }
-  .marquee-track{ gap:12px }
-}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 28px;background:linear-gradient(90deg,#0a1118,#0f1726);color:#fff;position:sticky;top:0;z-index:40;box-shadow:0 3px 12px rgba(5,10,20,0.18)}
+nav .brand{font-weight:700}
+header{text-align:center;padding:80px 20px 60px;background:linear-gradient(135deg,#071028,#0c2b47);color:#fff;position:relative;overflow:hidden}
+.header-shape{position:absolute;right:-120px;top:-40px;width:420px;height:420px;background:radial-gradient(circle at 30% 30%, rgba(58,166,255,0.12), transparent 25%),radial-gradient(circle at 70% 70%, rgba(122,80,255,0.06), transparent 20%);transform:rotate(20deg);pointer-events:none}
+.container{max-width:1100px;margin:30px auto;padding:26px}
+h2{font-size:1.25rem;margin:18px 0 12px;color:#071028;border-bottom:2px solid rgba(7,16,36,0.06);padding-bottom:10px}
+.about p{color:#24334a;background:linear-gradient(90deg,#fafafa,#fafafa);padding:14px 18px;border-radius:10px;box-shadow:0 6px 20px rgba(12,24,48,0.06)}
+.projects{display:grid;gap:28px;margin-top:18px}
+.card{background:linear-gradient(180deg,#fff,#fbfdff);border-radius:12px;padding:18px;box-shadow:0 14px 30px rgba(9,20,40,0.06);overflow:hidden;transition:transform .28s ease,box-shadow .28s ease}
+.card:hover{transform:translateY(-8px);box-shadow:0 28px 60px rgba(9,20,40,0.09)}
+.card h3{margin:0 0 8px;color:#062033}
+.card p{margin:0 0 12px;color:#334a63}
+.marquee{width:100%;overflow:hidden;border-radius:10px;border:1px solid rgba(12,24,40,0.04);background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));padding:12px;touch-action:none}
+.marquee-track{display:flex;gap:16px;align-items:center;will-change:transform}
+.tile{min-width:320px;max-width:420px;height:180px;border-radius:8px;overflow:hidden;background:#0b1220;display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 8px 20px rgba(12,24,40,0.08);cursor:grab;user-select:none}
+.tile img,.tile video{display:block;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.controls-hint{color:#43607f;font-size:0.92rem;margin-top:10px}
+.modal-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(5,10,20,0.6);z-index:200;opacity:0;pointer-events:none;transition:opacity .28s ease}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal-content{width:calc(100vw - 48px);max-width:1100px;max-height:90vh;background:linear-gradient(180deg,#0b1220,#071028);border-radius:12px;overflow:hidden;transform:translateY(6px) scale(.98);transition:transform .28s cubic-bezier(.2,.9,.2,1),box-shadow .28s;box-shadow:0 30px 80px rgba(3,8,18,0.6);display:flex;align-items:center;justify-content:center}
+.modal-overlay.open .modal-content{transform:translateY(0) scale(1)}
+.modal-body{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:12px}
+.modal-media{width:100%;height:100%;max-height:calc(90vh - 40px);object-fit:contain}
+.modal-close{position:absolute;right:14px;top:14px;z-index:5;background:rgba(255,255,255,0.06);color:white;border:none;width:44px;height:44px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:background .18s}
+.modal-close:hover{background:rgba(255,255,255,0.12)}
+footer{padding:40px 20px;color:#40607f;text-align:center;font-size:0.95rem}
+@media (min-width:900px){.tile{height:220px;min-width:360px}}@media (max-width:520px){header{padding:48px 12px}header h1{font-size:28px}.tile{height:160px;min-width:260px}.marquee-track{gap:12px}}
 </style>
 </head>
-
 <body>
 
-<nav>
-  <div class="brand">PORTAFOLIO</div>
-  <div class="small">Ingeniería • Simulación • Modelado</div>
-</nav>
+<nav><div class="brand">PORTAFOLIO</div><div class="small">Ingeniería • Simulación • Modelado</div></nav>
 
 <header>
   <div class="header-shape" aria-hidden="true"></div>
@@ -246,12 +58,9 @@ footer{ padding:40px 20px; color:#40607f; text-align:center; font-size:0.95rem; 
 </header>
 
 <main class="container">
-
   <section class="about">
     <h2>Sobre mí</h2>
-    <p>
-      Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico, CFD y modelado 3D. Manejo de Ansys, Autodesk Inventor, Microsoft Excel y programación para post-procesado. En este portafolio encontrarás proyectos seleccionados con material visual de interés.
-    </p>
+    <p>Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico, CFD y modelado 3D. Manejo de Ansys, Autodesk Inventor, Microsoft Excel y programación para post-procesado. En este portafolio encontrarás proyectos seleccionados con material visual de interés.</p>
   </section>
 
   <section class="projects">
@@ -261,44 +70,26 @@ footer{ padding:40px 20px; color:#40607f; text-align:center; font-size:0.95rem; 
     <article class="card" id="proj-1">
       <h3>Análisis de esfuerzos en flexible submarino</h3>
       <p>Simulación de esfuerzos en un flexible bajo carga hidrostática, gravedad y torsión.</p>
-
       <div class="marquee" data-speed="18">
         <div class="marquee-track">
-          <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
-          <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
-          <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt=""></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt=""></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt=""></div>
         </div>
       </div>
       <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
     </article>
 
-    <!-- Proyecto 2 (Baliza) - usando Baliza1..Baliza4 -->
+    <!-- Proyecto 2 (Baliza) -->
     <article class="card" id="proj-2">
       <h3>Simulación de viento y esfuerzos en baliza marítima</h3>
       <p>Estudio de carga de viento sobre estructuras de baliza con interacción fluido-estructura y análisis de puntos críticos.</p>
-
       <div class="marquee" data-speed="22">
         <div class="marquee-track">
-          <div class="tile" data-type="video">
-            <video muted loop playsinline preload="metadata">
-              <source src="assets/baliza/Baliza1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="tile" data-type="video">
-            <video muted loop playsinline preload="metadata">
-              <source src="assets/baliza/Baliza2.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="tile" data-type="video">
-            <video muted loop playsinline preload="metadata">
-              <source src="assets/baliza/Baliza3.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="tile" data-type="video">
-            <video muted loop playsinline preload="metadata">
-              <source src="assets/baliza/Baliza4.mp4" type="video/mp4">
-            </video>
-          </div>
+          <div class="tile" data-type="video"><video muted loop playsinline preload="metadata"><source src="assets/baliza/Baliza1.mp4" type="video/mp4"></video></div>
+          <div class="tile" data-type="video"><video muted loop playsinline preload="metadata"><source src="assets/baliza/Baliza2.mp4" type="video/mp4"></video></div>
+          <div class="tile" data-type="video"><video muted loop playsinline preload="metadata"><source src="assets/baliza/Baliza3.mp4" type="video/mp4"></video></div>
+          <div class="tile" data-type="video"><video muted loop playsinline preload="metadata"><source src="assets/baliza/Baliza4.mp4" type="video/mp4"></video></div>
         </div>
       </div>
       <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
@@ -308,124 +99,149 @@ footer{ padding:40px 20px; color:#40607f; text-align:center; font-size:0.95rem; 
     <article class="card" id="proj-3">
       <h3>Simulación térmica: cama caliente de impresora 3D</h3>
       <p>Análisis de distribución de temperatura en cama caliente.</p>
-
       <div class="marquee" data-speed="16">
         <div class="marquee-track">
-          <div class="tile" data-type="img"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
-          <div class="tile" data-type="img"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
-          <div class="tile" data-type="img"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide1.gif" alt=""></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide2.gif" alt=""></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide3.gif" alt=""></div>
         </div>
       </div>
       <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
     </article>
 
   </section>
-
 </main>
 
-<footer>
-  Contacto: <a href="mailto:sebastian.medinar@sansano.usm.cl">sebastian.medinar@sansano.usm.cl</a>
-</footer>
+<footer>Contacto: <a href="mailto:sebastian.medinar@sansano.usm.cl">sebastian.medinar@sansano.usm.cl</a></footer>
 
-<!-- ---------- Modal (hidden by default) ---------- -->
+<!-- Modal -->
 <div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="modal-content" role="document">
     <button class="modal-close" aria-label="Cerrar (Esc)">✕</button>
-    <div class="modal-body">
-      <!-- media element (img or video) will be injected here -->
-    </div>
+    <div class="modal-body"></div>
   </div>
 </div>
 
 <script>
-/* ---------- Marquee engine (rAF) + modal integration ---------- */
-document.querySelectorAll('.marquee').forEach(setupMarquee);
+/* --- Helpers para esperar carga de media --- */
+function whenMediaReady(root) {
+  const vids = Array.from(root.querySelectorAll('video'));
+  const imgs = Array.from(root.querySelectorAll('img'));
+  const promises = [];
 
-// Global modal references
+  vids.forEach(v => {
+    if (v.readyState >= 1) return;
+    promises.push(new Promise(res => v.addEventListener('loadedmetadata', res, {once:true})));
+  });
+  imgs.forEach(img => {
+    if (img.complete) return;
+    promises.push(new Promise(res => img.addEventListener('load', res, {once:true})));
+  });
+  return Promise.all(promises);
+}
+
+/* --- Modal global --- */
 const modal = document.getElementById('modal');
 const modalBody = modal.querySelector('.modal-body');
 const modalCloseBtn = modal.querySelector('.modal-close');
-let modalOpen = false;
-let modalCurrentMedia = null;
-let lastRunningStates = new Map(); // remember running state per marquee
-
-// IntersectionObserver: lazy-trigger play attempts when marquee is visible
-const io = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    const marquee = entry.target;
-    const videos = marquee.querySelectorAll('video');
-    if(entry.isIntersecting){
-      videos.forEach(v => {
-        v.muted = true;
-        v.playsInline = true;
-        v.loop = true;
-        v.play().catch(()=>{/* autoplay blocked until user gesture */});
-      });
-    } else {
-      videos.forEach(v => {
-        try { v.pause(); } catch(e) {}
-      });
-    }
+let isModalOpen = false;
+function openModalWithMedia(mediaEl) {
+  // pause marquees & their videos
+  document.querySelectorAll('.marquee').forEach(m => {
+    if (m._api) m._api.pause();
+    m.querySelectorAll('video').forEach(v => { try{ v.pause(); }catch(e){} });
   });
-}, {threshold: 0.25});
 
-/* Main setup per marquee */
-function setupMarquee(marquee){
+  modalBody.innerHTML = '';
+  modalBody.appendChild(mediaEl);
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+  isModalOpen = true;
+  modalCloseBtn.focus();
+  document.addEventListener('keydown', modalKeyHandler);
+}
+function closeModal() {
+  if(!isModalOpen) return;
+  document.removeEventListener('keydown', modalKeyHandler);
+  // stop and clear media
+  const m = modalBody.querySelector('video');
+  if(m){ try{ m.pause(); } catch(e){} m.src = ''; }
+  modalBody.innerHTML = '';
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+  isModalOpen = false;
+  // resume marquees
+  document.querySelectorAll('.marquee').forEach(mar => { if (mar._api) mar._api.resume(); mar.querySelectorAll('video').forEach(v=>{ try{ v.play().catch(()=>{}); }catch(e){} }); });
+}
+function modalKeyHandler(e){ if(e.key === 'Escape'){ closeModal(); } }
+modalCloseBtn.addEventListener('click', closeModal);
+modal.querySelector('.modal-content').addEventListener('pointerdown', e => e.stopPropagation());
+modal.addEventListener('pointerdown', (e)=> { if(!e.target.closest('.modal-content')) closeModal(); });
+
+/* --- Marquee setup --- */
+document.querySelectorAll('.marquee').forEach(m => initializeMarquee(m));
+
+function initializeMarquee(marquee){
   const track = marquee.querySelector('.marquee-track');
+  // original items
+  const originals = Array.from(track.children);
+  // duplicate for seamless loop
+  originals.forEach(o => track.appendChild(o.cloneNode(true)));
 
-  // duplicate items for seamless loop
-  const items = Array.from(track.children);
-  items.forEach(i => track.appendChild(i.cloneNode(true)));
+  // expose API container
+  marquee._api = { running:true, pause(){ this.running=false; }, resume(){ this.running=true; lastTime=null; } };
 
-  // attempt to play contained videos (muted) – may be blocked until user interacts
-  track.querySelectorAll('video').forEach(v=>{
-    v.muted = true;
-    v.playsInline = true;
-    v.loop = true;
-    v.preload = 'metadata';
-    v.load();
-    v.play().catch(()=>{});
+  // ensure media in track try to play
+  track.querySelectorAll('video').forEach(v => {
+    v.muted = true; v.playsInline = true; v.loop = true; v.preload='metadata';
+    v.load(); v.play().catch(()=>{});
   });
 
-  // measure single set width
+  // compute widths after media have metadata/loaded
   function computeSingleWidth(){
-    const orig = Array.from(track.children).slice(0, items.length);
-    let w = 0;
-    orig.forEach(ch => {
-      const rect = ch.getBoundingClientRect();
-      w += rect.width;
-      // include gap
-      const gap = parseFloat(getComputedStyle(track).gap || 0) || 0;
-      w += gap;
-    });
-    return w || track.scrollWidth / 2 || 1;
+    // original children widths
+    const orig = Array.from(track.children).slice(0, originals.length);
+    let total = 0;
+    const gap = parseFloat(getComputedStyle(track).gap || 0) || 0;
+    orig.forEach(ch => { const r = ch.getBoundingClientRect(); total += r.width + gap; });
+    // fallback
+    if(!total || !isFinite(total)) total = track.scrollWidth / 2 || 1;
+    return total;
   }
 
   let singleWidth = 0;
-  function recalc(){ singleWidth = computeSingleWidth(); }
-
-  // animation state
-  let pos = 0; // px moved (increasing moves left)
+  let pos = 0; // px scrolled (increasing -> moves left)
   let lastTime = null;
   let rafId = null;
-  const duration = parseFloat(marquee.dataset.speed) || 18; // seconds to move one singleWidth
-  let speed = 0; // px per second; computed as singleWidth/duration
-  let running = true;
+  const duration = Math.max(0.1, parseFloat(marquee.dataset.speed) || 18);
+  let speed = 0; // px per second (singleWidth / duration)
   let pointerDown = false;
-  let dragStartX = 0;
-  let dragStartPos = 0;
+  let startX = 0;
+  let startPos = 0;
+  let moved = false;
   const DRAG_THRESHOLD = 6;
-  let movedWhileDown = false;
 
-  function updateSpeed(){
-    recalc();
-    speed = singleWidth / Math.max(duration, 0.1);
+  function recalc(){
+    singleWidth = computeSingleWidth();
+    speed = singleWidth / duration;
   }
 
-  updateSpeed();
-  window.addEventListener('resize', () => {
-    updateSpeed();
+  // wait media ready for accurate measurements, then recalc and start RAF
+  whenMediaReady(track).finally(()=> {
+    // small timeout to allow layout
+    setTimeout(()=> {
+      recalc();
+      // start animation
+      lastTime = null;
+      if(!rafId) rafId = requestAnimationFrame(step);
+      // try to autoplay muted videos in view
+      track.querySelectorAll('video').forEach(v => { v.muted=true; v.play().catch(()=>{}); });
+    }, 80);
   });
+
+  window.addEventListener('resize', ()=> { recalc(); });
 
   function applyTransform(){
     let p = pos % singleWidth;
@@ -435,230 +251,107 @@ function setupMarquee(marquee){
 
   function step(ts){
     if(lastTime === null) lastTime = ts;
-    const dt = (ts - lastTime)/1000;
+    const dt = (ts - lastTime) / 1000;
     lastTime = ts;
-    if(running && !pointerDown){
+    if(marquee._api.running && !pointerDown && singleWidth > 0){
       pos += speed * dt;
-      if(pos > 1e9) pos = pos % singleWidth;
+      // prevent large numbers
+      if(pos > 1e12) pos = pos % singleWidth;
       applyTransform();
     }
     rafId = requestAnimationFrame(step);
   }
-  rafId = requestAnimationFrame(step);
 
-  // pointer handlers (drag & tap)
+  // POINTER HANDLERS
+  let tappedTileOnDown = null;
   marquee.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     pointerDown = true;
-    dragStartX = e.clientX;
-    dragStartPos = pos;
-    movedWhileDown = false;
-    // pause running to allow drag, but remember previous running
-    lastRunningStates.set(marquee, running);
-    running = false;
-    // capture pointer
+    startX = e.clientX;
+    startPos = pos;
+    moved = false;
+    tappedTileOnDown = e.target.closest('.tile') || null;
+    // pause auto movement while dragging
+    marquee._api.running = false;
+    // capture pointer so we get pointermove/up
     if(marquee.setPointerCapture) try{ marquee.setPointerCapture(e.pointerId); } catch(e){}
   });
 
   marquee.addEventListener('pointermove', (e) => {
     if(!pointerDown) return;
-    const dx = e.clientX - dragStartX;
-    if(Math.abs(dx) > DRAG_THRESHOLD) movedWhileDown = true;
-    // dragging right (dx>0) should move content right -> decrease pos
-    pos = dragStartPos - dx;
+    const dx = e.clientX - startX;
+    if(Math.abs(dx) > DRAG_THRESHOLD) moved = true;
+    // dragging right (dx>0) -> move content right => decrease pos
+    pos = startPos - dx;
     applyTransform();
   }, {passive:false});
 
   marquee.addEventListener('pointerup', (e) => {
     if(!pointerDown) return;
     pointerDown = false;
+    // release pointer capture
     if(marquee.releasePointerCapture) try{ marquee.releasePointerCapture(e.pointerId); } catch(e){}
     const endX = e.clientX;
-    const totalDx = endX - dragStartX;
-
-    // If it was a tap (no drag): open modal for the clicked tile
-    if(!movedWhileDown && Math.abs(totalDx) < DRAG_THRESHOLD){
-      // find clicked tile (closest)
-      const tile = e.target.closest('.tile');
-      if(tile) {
-        openTileModal(tile, marquee); // open modal with tile content
-        return;
+    const totalDx = endX - startX;
+    // if tap (no move), open modal for that tile
+    if(!moved && Math.abs(totalDx) < DRAG_THRESHOLD && tappedTileOnDown){
+      // create media element based on tile content
+      const tile = tappedTileOnDown;
+      const vid = tile.querySelector('video');
+      const img = tile.querySelector('img');
+      if(vid){
+        const src = (vid.querySelector('source') && (vid.querySelector('source').src || vid.querySelector('source').getAttribute('src'))) || vid.currentSrc || vid.src;
+        const modalVideo = document.createElement('video');
+        modalVideo.className = 'modal-media';
+        modalVideo.src = src;
+        modalVideo.controls = true;
+        modalVideo.autoplay = true;
+        modalVideo.playsInline = true;
+        modalVideo.preload = 'auto';
+        modalVideo.muted = false;
+        modalVideo.addEventListener('canplay', ()=> modalVideo.play().catch(()=>{}), {once:true});
+        openModalWithMedia(modalVideo);
+      } else if(img){
+        const modalImg = document.createElement('img');
+        modalImg.className = 'modal-media';
+        modalImg.src = img.src || img.getAttribute('src');
+        modalImg.alt = img.alt || '';
+        openModalWithMedia(modalImg);
       }
+      return;
     }
 
-    // If user dragged: resume previous running state (or true)
-    const prev = lastRunningStates.get(marquee);
-    running = (typeof prev === 'boolean') ? prev : true;
+    // if dragged, resume auto movement
+    marquee._api.running = true;
     lastTime = null;
   });
 
-  marquee.addEventListener('pointercancel', (e) => {
+  marquee.addEventListener('pointercancel', ()=>{
     pointerDown = false;
-    running = true;
+    marquee._api.running = true;
     lastTime = null;
   });
 
+  // prevent vertical scroll during horizontal drag on touch
   marquee.addEventListener('touchmove', (e) => {
-    if(pointerDown && movedWhileDown) e.preventDefault();
+    if(pointerDown && moved) e.preventDefault();
   }, {passive:false});
 
-  // keyboard accessibility: space toggles play/pause for this marquee
-  marquee.tabIndex = 0;
-  marquee.addEventListener('keydown', (e) => {
-    if(e.key === ' ' || e.key === 'Spacebar'){
-      e.preventDefault();
-      running = !running;
-      lastTime = null;
-    }
-  });
-
-  // intersection observer for lazy play/pause
-  io.observe(marquee);
-
-  // expose minimal API for modal control (pause/resume)
-  marquee._marqueeAPI = {
-    pause: () => { running = false; },
-    resume: () => { running = true; lastTime = null; },
-    isRunning: () => running,
-    getTrack: () => track
-  };
+  // simple API exposure
+  marquee._api.getTrack = () => track;
+  marquee._api.recalc = recalc;
 }
 
-/* ---------- Modal functions ---------- */
-
-function openTileModal(tile, owningMarquee){
-  if(modalOpen) return;
-  // Determine content type inside tile
-  const vid = tile.querySelector('video');
-  const img = tile.querySelector('img');
-  // create media element to inject
-  let mediaEl;
-  if(vid){
-    // create video for modal (use src from source element)
-    const source = vid.querySelector('source');
-    const src = source ? source.src || source.getAttribute('src') : (vid.currentSrc || vid.src);
-    mediaEl = document.createElement('video');
-    mediaEl.className = 'modal-media';
-    mediaEl.controls = true;
-    mediaEl.autoplay = true;
-    mediaEl.playsInline = true;
-    mediaEl.preload = 'auto';
-    mediaEl.src = src;
-    mediaEl.muted = false; // allow sound in modal (user can unmute)
-    // ensure plays when ready
-    mediaEl.addEventListener('canplay', ()=>{ mediaEl.play().catch(()=>{}); });
-  } else if(img){
-    mediaEl = document.createElement('img');
-    mediaEl.className = 'modal-media';
-    mediaEl.src = img.src || img.getAttribute('src');
-    mediaEl.alt = img.alt || '';
-  } else {
-    return; // nothing to show
-  }
-
-  // Pause all marquees' running state and pause their videos
-  document.querySelectorAll('.marquee').forEach(m=>{
-    const api = m._marqueeAPI;
-    if(api) { api.pause(); }
-    m.querySelectorAll('video').forEach(v=>{
-      try{ v.pause(); } catch(e){}
-    });
-  });
-
-  // show modal
-  modalBody.innerHTML = '';
-  modalBody.appendChild(mediaEl);
-  modal.classList.add('open');
-  modal.setAttribute('aria-hidden','false');
-  document.body.classList.add('modal-open');
-  modalOpen = true;
-  modalCurrentMedia = mediaEl;
-
-  // focus close button for accessibility
-  modalCloseBtn.focus();
-
-  // attach listeners for keyboard / outside click
-  setTimeout(()=> {
-    document.addEventListener('keydown', modalKeyHandler);
-    modal.addEventListener('pointerdown', modalOutsideHandler);
-  }, 10);
-}
-
-function closeModal(){
-  if(!modalOpen) return;
-  // remove listeners
-  document.removeEventListener('keydown', modalKeyHandler);
-  modal.removeEventListener('pointerdown', modalOutsideHandler);
-
-  // stop media if video
-  if(modalCurrentMedia && modalCurrentMedia.tagName === 'VIDEO'){
-    try{ modalCurrentMedia.pause(); } catch(e){}
-    // revoke src if set
-    modalCurrentMedia.src = '';
-  }
-
-  // hide modal
-  modal.classList.remove('open');
-  modal.setAttribute('aria-hidden','true');
-  document.body.classList.remove('modal-open');
-  modalBody.innerHTML = '';
-  modalOpen = false;
-  modalCurrentMedia = null;
-
-  // resume marquees (we'll set them to running=true)
-  document.querySelectorAll('.marquee').forEach(m=>{
-    const api = m._marqueeAPI;
-    if(api) api.resume();
-    // also try to resume inner videos (muted)
-    m.querySelectorAll('video').forEach(v=>{
-      try{ v.play().catch(()=>{}); } catch(e){}
-    });
-  });
-}
-
-function modalKeyHandler(e){
-  if(e.key === 'Escape' || e.key === 'Esc'){
-    closeModal();
-  }
-}
-
-function modalOutsideHandler(e){
-  // if click/pointerdown outside modal-content, close
-  if(!e.target.closest('.modal-content')){
-    closeModal();
-  }
-}
-
-// close button
-modalCloseBtn.addEventListener('click', (e)=>{
-  e.stopPropagation();
-  closeModal();
-});
-
-/* Stop propagation for clicks inside modal content so pointerdown handler doesn't close immediately */
-modal.querySelector('.modal-content').addEventListener('pointerdown', (e)=> e.stopPropagation());
-
-/* ---------- Accessibility: focus trap (light) ---------- */
-modal.addEventListener('keydown', (e)=>{
-  if(e.key === 'Tab'){
-    // simple focus trap: keep focus inside modal close button
-    e.preventDefault();
-    modalCloseBtn.focus();
-  }
-});
-
-/* ---------- Ensure initial autoplay attempt for in-view marquees ---------- */
+/* initial autoplay attempt for all marquee videos in view */
 setTimeout(()=> {
   document.querySelectorAll('.marquee').forEach(m=>{
     m.querySelectorAll('video').forEach(v=>{
-      v.muted = true;
-      v.playsInline = true;
-      v.loop = true;
+      v.muted = true; v.playsInline = true; v.loop = true;
       v.play().catch(()=>{});
     });
   });
 }, 500);
-</script>
 
+</script>
 </body>
 </html>
