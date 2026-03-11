@@ -6,6 +6,7 @@
 <title>Portafolio — Sebastián Medina</title>
 
 <style>
+/* ---------- Base ---------- */
 *{box-sizing:border-box}
 html,body{height:100%}
 body{
@@ -16,9 +17,13 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   line-height:1.5;
+  -webkit-font-feature-settings: "liga" 1;
 }
 
-/* Top nav */
+/* prevent background scroll when modal open */
+body.modal-open{overflow:hidden}
+
+/* ---------- Top nav ---------- */
 nav{
   display:flex;
   justify-content:space-between;
@@ -35,7 +40,7 @@ nav{
 nav .brand{font-weight:700;letter-spacing:0.6px}
 nav .small{opacity:0.85;font-size:0.92rem}
 
-/* Header */
+/* ---------- Header ---------- */
 header{
   text-align:center;
   padding:80px 20px 60px;
@@ -57,14 +62,12 @@ header p{opacity:0.9;margin:0;font-size:1.05rem}
   pointer-events:none;
 }
 
-/* container */
+/* ---------- Container & sections ---------- */
 .container{
   max-width:1100px;
   margin:30px auto;
   padding:26px;
 }
-
-/* section title */
 h2{
   font-size:1.25rem;
   margin:18px 0 12px;
@@ -72,8 +75,6 @@ h2{
   border-bottom:2px solid rgba(7,16,36,0.06);
   padding-bottom:10px;
 }
-
-/* about */
 .about p{
   color:#24334a;
   background:linear-gradient(90deg, rgba(250,250,252,1), rgba(250,250,252,1));
@@ -82,13 +83,8 @@ h2{
   box-shadow:0 6px 20px rgba(12,24,48,0.06);
 }
 
-/* projects */
-.projects{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:28px;
-  margin-top:18px;
-}
+/* ---------- Cards & marquee ---------- */
+.projects{ display:grid; gap:28px; margin-top:18px; }
 .card{
   background:linear-gradient(180deg,#ffffff,#fbfdff);
   border-radius:12px;
@@ -110,7 +106,7 @@ h2{
   border:1px solid rgba(12,24,40,0.04);
   background:linear-gradient(90deg, rgba(245,250,255,0.8), rgba(255,255,255,0.7));
   padding:12px;
-  touch-action:none; /* handle gestures ourselves */
+  touch-action:none; /* we'll handle gestures */
 }
 
 /* track flex row */
@@ -121,7 +117,7 @@ h2{
   will-change:transform;
 }
 
-/* each tile */
+/* tiles */
 .tile{
   min-width:320px; max-width:420px;
   height:180px;
@@ -133,29 +129,95 @@ h2{
   justify-content:center;
   position:relative;
   box-shadow: 0 8px 20px rgba(12,24,40,0.08);
+  cursor:grab;
+  user-select:none;
 }
 
-/* media */
+/* visual media */
 .tile img, .tile video{
   display:block;
   width:100%;
   height:100%;
   object-fit:cover;
-  pointer-events:none;
+  pointer-events:none; /* let tile handle interactions */
 }
 
-/* hint */
-.controls-hint{
-  color:#43607f; font-size:0.92rem; margin-top:10px;
+/* small controls hint */
+.controls-hint{ color:#43607f; font-size:0.92rem; margin-top:10px; }
+
+/* ---------- Modal / Lightbox ---------- */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(5,10,20,0.6);
+  z-index:200;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .28s ease;
 }
+.modal-overlay.open{
+  opacity:1;
+  pointer-events:auto;
+}
+.modal-content{
+  width:calc(100vw - 48px);
+  max-width:1100px;
+  max-height:90vh;
+  background:linear-gradient(180deg,#0b1220,#071028);
+  border-radius:12px;
+  overflow:hidden;
+  transform:translateY(6px) scale(.98);
+  transition:transform .28s cubic-bezier(.2,.9,.2,1), box-shadow .28s;
+  box-shadow:0 30px 80px rgba(3,8,18,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.modal-overlay.open .modal-content{
+  transform:translateY(0) scale(1);
+}
+.modal-body{
+  position:relative;
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:12px;
+}
+.modal-media{
+  width:100%;
+  height:100%;
+  max-height:calc(90vh - 40px);
+  object-fit:contain;
+}
+
+/* top-right close button */
+.modal-close{
+  position:absolute;
+  right:14px;
+  top:14px;
+  z-index:5;
+  background:rgba(255,255,255,0.06);
+  color:white;
+  border:none;
+  width:44px;
+  height:44px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  cursor:pointer;
+  transition:background .18s;
+}
+.modal-close:hover{ background:rgba(255,255,255,0.12); }
 
 /* footer */
-footer{
-  padding:40px 20px;
-  color:#40607f;
-  text-align:center;
-  font-size:0.95rem;
-}
+footer{ padding:40px 20px; color:#40607f; text-align:center; font-size:0.95rem; }
 
 /* responsive tweaks */
 @media (min-width:900px){
@@ -180,7 +242,7 @@ footer{
 <header>
   <div class="header-shape" aria-hidden="true"></div>
   <h1>Sebastián Medina</h1>
-  <p>Ingeniero Civil Mecánico — Simulaciones térmicas, de esfuerzos y CFD por medio de análisis de elementos finitos.</p>
+  <p>Ingeniero Civil Mecánico — Simulaciones térmicas, de esfuerzos y CFD por elementos finitos.</p>
 </header>
 
 <main class="container">
@@ -188,7 +250,7 @@ footer{
   <section class="about">
     <h2>Sobre mí</h2>
     <p>
-      Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico, CFD y modelado 3D. Manejo de Ansys, Autodesk Inventor, Microsoft Excel y lenguaje de programación. En este portafolio encontrarás proyectos seleccionados con material visual de interés.
+      Ingeniero Civil Mecánico (UTFSM) con experiencia en simulaciones de esfuerzos, análisis térmico, CFD y modelado 3D. Manejo de Ansys, Autodesk Inventor, Microsoft Excel y programación para post-procesado. En este portafolio encontrarás proyectos seleccionados con material visual de interés.
     </p>
   </section>
 
@@ -202,12 +264,12 @@ footer{
 
       <div class="marquee" data-speed="18">
         <div class="marquee-track">
-          <div class="tile"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
-          <div class="tile"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
-          <div class="tile"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide1.gif" alt="Flexible - resultado 1"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide2.gif" alt="Flexible - resultado 2"></div>
+          <div class="tile" data-type="img"><img src="assets/flexible/slide3.gif" alt="Flexible - resultado 3"></div>
         </div>
       </div>
-      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+      <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
     </article>
 
     <!-- Proyecto 2 (Baliza) - usando Baliza1..Baliza4 -->
@@ -217,29 +279,29 @@ footer{
 
       <div class="marquee" data-speed="22">
         <div class="marquee-track">
-          <div class="tile">
+          <div class="tile" data-type="video">
             <video muted loop playsinline preload="metadata">
               <source src="assets/baliza/Baliza1.mp4" type="video/mp4">
             </video>
           </div>
-          <div class="tile">
+          <div class="tile" data-type="video">
             <video muted loop playsinline preload="metadata">
               <source src="assets/baliza/Baliza2.mp4" type="video/mp4">
             </video>
           </div>
-          <div class="tile">
+          <div class="tile" data-type="video">
             <video muted loop playsinline preload="metadata">
               <source src="assets/baliza/Baliza3.mp4" type="video/mp4">
             </video>
           </div>
-          <div class="tile">
+          <div class="tile" data-type="video">
             <video muted loop playsinline preload="metadata">
               <source src="assets/baliza/Baliza4.mp4" type="video/mp4">
             </video>
           </div>
         </div>
       </div>
-      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+      <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
     </article>
 
     <!-- Proyecto 3 -->
@@ -249,12 +311,12 @@ footer{
 
       <div class="marquee" data-speed="16">
         <div class="marquee-track">
-          <div class="tile"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
-          <div class="tile"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
-          <div class="tile"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide1.gif" alt="Cama - resultado 1"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide2.gif" alt="Cama - resultado 2"></div>
+          <div class="tile" data-type="img"><img src="assets/cama/slide3.gif" alt="Cama - resultado 3"></div>
         </div>
       </div>
-      <div class="controls-hint">Toca / haz click para pausar — desliza para desplazar manualmente.</div>
+      <div class="controls-hint">Toca / haz click para abrir a pantalla completa — desliza para desplazar manualmente.</div>
     </article>
 
   </section>
@@ -265,165 +327,184 @@ footer{
   Contacto: <a href="mailto:sebastian.medinar@sansano.usm.cl">sebastian.medinar@sansano.usm.cl</a>
 </footer>
 
-<script>
-/*
-  JS marquee basado en requestAnimationFrame (sin CSS animation)
-  - Duplicamos los items para loop seamless
-  - speed (seconds) viene de data-speed: tiempo en segundos para que avance un "conjunto" completo
-  - pos es el desplazamiento en px (aumenta → movimiento hacia la izquierda)
-  - drag: pointerdown + move → permite arrastrar mientras se mantiene pulsado
-  - tap corto (sin mover) => toggle pause/resume
-*/
+<!-- ---------- Modal (hidden by default) ---------- -->
+<div id="modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="modal-content" role="document">
+    <button class="modal-close" aria-label="Cerrar (Esc)">✕</button>
+    <div class="modal-body">
+      <!-- media element (img or video) will be injected here -->
+    </div>
+  </div>
+</div>
 
+<script>
+/* ---------- Marquee engine (rAF) + modal integration ---------- */
 document.querySelectorAll('.marquee').forEach(setupMarquee);
 
+// Global modal references
+const modal = document.getElementById('modal');
+const modalBody = modal.querySelector('.modal-body');
+const modalCloseBtn = modal.querySelector('.modal-close');
+let modalOpen = false;
+let modalCurrentMedia = null;
+let lastRunningStates = new Map(); // remember running state per marquee
+
+// IntersectionObserver: lazy-trigger play attempts when marquee is visible
+const io = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    const marquee = entry.target;
+    const videos = marquee.querySelectorAll('video');
+    if(entry.isIntersecting){
+      videos.forEach(v => {
+        v.muted = true;
+        v.playsInline = true;
+        v.loop = true;
+        v.play().catch(()=>{/* autoplay blocked until user gesture */});
+      });
+    } else {
+      videos.forEach(v => {
+        try { v.pause(); } catch(e) {}
+      });
+    }
+  });
+}, {threshold: 0.25});
+
+/* Main setup per marquee */
 function setupMarquee(marquee){
   const track = marquee.querySelector('.marquee-track');
 
-  // clone children to create seamless loop
+  // duplicate items for seamless loop
   const items = Array.from(track.children);
-  items.forEach(item => track.appendChild(item.cloneNode(true)));
+  items.forEach(i => track.appendChild(i.cloneNode(true)));
 
-  // get single-set width (after appending clones)
-  // singleWidth = half of full scrollWidth (original set length)
-  // but we must measure the width of the original set. To do that, sum widths of original children.
-  function computeSingleWidth(){
-    const origChildren = Array.from(track.children).slice(0, items.length);
-    let w = 0;
-    origChildren.forEach(ch => w += ch.getBoundingClientRect().width + getGapValue(track));
-    return w;
-  }
-
-  // get gap between flex items (computed)
-  function getGapValue(el){
-    const style = window.getComputedStyle(el);
-    const gap = parseFloat(style.columnGap || style.gap || 0);
-    return isNaN(gap) ? 0 : gap;
-  }
-
-  // ensure videos try to play (muted)
+  // attempt to play contained videos (muted) – may be blocked until user interacts
   track.querySelectorAll('video').forEach(v=>{
     v.muted = true;
     v.playsInline = true;
-    // try to load & play (some browsers require user gesture)
+    v.loop = true;
+    v.preload = 'metadata';
     v.load();
-    v.play().catch(()=>{ /* will play after user gesture */ });
+    v.play().catch(()=>{});
   });
 
-  // state variables
+  // measure single set width
+  function computeSingleWidth(){
+    const orig = Array.from(track.children).slice(0, items.length);
+    let w = 0;
+    orig.forEach(ch => {
+      const rect = ch.getBoundingClientRect();
+      w += rect.width;
+      // include gap
+      const gap = parseFloat(getComputedStyle(track).gap || 0) || 0;
+      w += gap;
+    });
+    return w || track.scrollWidth / 2 || 1;
+  }
+
   let singleWidth = 0;
-  let pos = 0; // px (0..singleWidth)
+  function recalc(){ singleWidth = computeSingleWidth(); }
+
+  // animation state
+  let pos = 0; // px moved (increasing moves left)
   let lastTime = null;
   let rafId = null;
-  let running = true; // auto-scroll running
   const duration = parseFloat(marquee.dataset.speed) || 18; // seconds to move one singleWidth
-  let speed = 0; // px per second (computed)
+  let speed = 0; // px per second; computed as singleWidth/duration
+  let running = true;
   let pointerDown = false;
   let dragStartX = 0;
   let dragStartPos = 0;
-  const DRAG_THRESHOLD = 6; // px to detect move
+  const DRAG_THRESHOLD = 6;
   let movedWhileDown = false;
 
-  // measure sizes
-  function recalc(){
-    singleWidth = computeSingleWidth();
-    if(singleWidth <= 0) singleWidth = track.scrollWidth / 2 || 1;
-    speed = singleWidth / Math.max(duration, 0.1); // px per second
+  function updateSpeed(){
+    recalc();
+    speed = singleWidth / Math.max(duration, 0.1);
   }
 
-  // initial calc after images/videos loaded
-  recalc();
-  // also recalc on load/resize (videos/images may change size)
+  updateSpeed();
   window.addEventListener('resize', () => {
-    recalc();
+    updateSpeed();
   });
 
-  // helper: set transform according to pos
   function applyTransform(){
-    // normalize pos to [0, singleWidth)
     let p = pos % singleWidth;
     if(p < 0) p += singleWidth;
-    // translate negative p (move left)
     track.style.transform = `translateX(${-p}px)`;
   }
 
-  // animation loop
   function step(ts){
     if(lastTime === null) lastTime = ts;
-    const dt = (ts - lastTime) / 1000; // seconds
+    const dt = (ts - lastTime)/1000;
     lastTime = ts;
-
     if(running && !pointerDown){
-      pos += speed * dt; // advance to left
-      // keep pos bounded to prevent overflow
+      pos += speed * dt;
       if(pos > 1e9) pos = pos % singleWidth;
       applyTransform();
     }
     rafId = requestAnimationFrame(step);
   }
-
-  // start loop
   rafId = requestAnimationFrame(step);
 
-  // pointer handlers
-  marquee.addEventListener('pointerdown', (e)=>{
+  // pointer handlers (drag & tap)
+  marquee.addEventListener('pointerdown', (e) => {
     e.preventDefault();
     pointerDown = true;
     dragStartX = e.clientX;
     dragStartPos = pos;
     movedWhileDown = false;
-    // pause auto-scrolling (but keep lastTime for resume)
+    // pause running to allow drag, but remember previous running
+    lastRunningStates.set(marquee, running);
     running = false;
     // capture pointer
     if(marquee.setPointerCapture) try{ marquee.setPointerCapture(e.pointerId); } catch(e){}
   });
 
-  marquee.addEventListener('pointermove', (e)=>{
+  marquee.addEventListener('pointermove', (e) => {
     if(!pointerDown) return;
     const dx = e.clientX - dragStartX;
     if(Math.abs(dx) > DRAG_THRESHOLD) movedWhileDown = true;
-    // Update pos: dragging right (dx>0) should move content right -> decrease pos
+    // dragging right (dx>0) should move content right -> decrease pos
     pos = dragStartPos - dx;
     applyTransform();
   }, {passive:false});
 
-  marquee.addEventListener('pointerup', (e)=>{
+  marquee.addEventListener('pointerup', (e) => {
     if(!pointerDown) return;
     pointerDown = false;
-    // release capture
     if(marquee.releasePointerCapture) try{ marquee.releasePointerCapture(e.pointerId); } catch(e){}
-    // if it was a tap (no significant move) => toggle pause/resume
-    if(!movedWhileDown){
-      running = !running; // toggle play state
-      // if resuming, also ensure lastTime is reset so animation steps correctly
-      lastTime = null;
-    } else {
-      // if user dragged and released, resume auto-scroll
-      running = true;
-      lastTime = null; // reset time so dt small
+    const endX = e.clientX;
+    const totalDx = endX - dragStartX;
+
+    // If it was a tap (no drag): open modal for the clicked tile
+    if(!movedWhileDown && Math.abs(totalDx) < DRAG_THRESHOLD){
+      // find clicked tile (closest)
+      const tile = e.target.closest('.tile');
+      if(tile) {
+        openTileModal(tile, marquee); // open modal with tile content
+        return;
+      }
     }
+
+    // If user dragged: resume previous running state (or true)
+    const prev = lastRunningStates.get(marquee);
+    running = (typeof prev === 'boolean') ? prev : true;
+    lastTime = null;
   });
 
-  marquee.addEventListener('pointercancel', ()=>{
+  marquee.addEventListener('pointercancel', (e) => {
     pointerDown = false;
     running = true;
     lastTime = null;
   });
 
-  // touchmove prevent vertical when dragging horizontally
-  marquee.addEventListener('touchmove', (e)=>{
+  marquee.addEventListener('touchmove', (e) => {
     if(pointerDown && movedWhileDown) e.preventDefault();
   }, {passive:false});
 
-  // double-click to force resume
-  marquee.addEventListener('dblclick', ()=>{
-    running = true;
-    lastTime = null;
-  });
-
-  // keyboard: space toggle
+  // keyboard accessibility: space toggles play/pause for this marquee
   marquee.tabIndex = 0;
-  marquee.addEventListener('keydown', (e)=>{
+  marquee.addEventListener('keydown', (e) => {
     if(e.key === ' ' || e.key === 'Spacebar'){
       e.preventDefault();
       running = !running;
@@ -431,17 +512,153 @@ function setupMarquee(marquee){
     }
   });
 
-  // make sure videos inside clones also play
-  // After a short delay (to allow DOM to settle) try to play videos
-  setTimeout(()=>{
-    track.querySelectorAll('video').forEach(v=>{
+  // intersection observer for lazy play/pause
+  io.observe(marquee);
+
+  // expose minimal API for modal control (pause/resume)
+  marquee._marqueeAPI = {
+    pause: () => { running = false; },
+    resume: () => { running = true; lastTime = null; },
+    isRunning: () => running,
+    getTrack: () => track
+  };
+}
+
+/* ---------- Modal functions ---------- */
+
+function openTileModal(tile, owningMarquee){
+  if(modalOpen) return;
+  // Determine content type inside tile
+  const vid = tile.querySelector('video');
+  const img = tile.querySelector('img');
+  // create media element to inject
+  let mediaEl;
+  if(vid){
+    // create video for modal (use src from source element)
+    const source = vid.querySelector('source');
+    const src = source ? source.src || source.getAttribute('src') : (vid.currentSrc || vid.src);
+    mediaEl = document.createElement('video');
+    mediaEl.className = 'modal-media';
+    mediaEl.controls = true;
+    mediaEl.autoplay = true;
+    mediaEl.playsInline = true;
+    mediaEl.preload = 'auto';
+    mediaEl.src = src;
+    mediaEl.muted = false; // allow sound in modal (user can unmute)
+    // ensure plays when ready
+    mediaEl.addEventListener('canplay', ()=>{ mediaEl.play().catch(()=>{}); });
+  } else if(img){
+    mediaEl = document.createElement('img');
+    mediaEl.className = 'modal-media';
+    mediaEl.src = img.src || img.getAttribute('src');
+    mediaEl.alt = img.alt || '';
+  } else {
+    return; // nothing to show
+  }
+
+  // Pause all marquees' running state and pause their videos
+  document.querySelectorAll('.marquee').forEach(m=>{
+    const api = m._marqueeAPI;
+    if(api) { api.pause(); }
+    m.querySelectorAll('video').forEach(v=>{
+      try{ v.pause(); } catch(e){}
+    });
+  });
+
+  // show modal
+  modalBody.innerHTML = '';
+  modalBody.appendChild(mediaEl);
+  modal.classList.add('open');
+  modal.setAttribute('aria-hidden','false');
+  document.body.classList.add('modal-open');
+  modalOpen = true;
+  modalCurrentMedia = mediaEl;
+
+  // focus close button for accessibility
+  modalCloseBtn.focus();
+
+  // attach listeners for keyboard / outside click
+  setTimeout(()=> {
+    document.addEventListener('keydown', modalKeyHandler);
+    modal.addEventListener('pointerdown', modalOutsideHandler);
+  }, 10);
+}
+
+function closeModal(){
+  if(!modalOpen) return;
+  // remove listeners
+  document.removeEventListener('keydown', modalKeyHandler);
+  modal.removeEventListener('pointerdown', modalOutsideHandler);
+
+  // stop media if video
+  if(modalCurrentMedia && modalCurrentMedia.tagName === 'VIDEO'){
+    try{ modalCurrentMedia.pause(); } catch(e){}
+    // revoke src if set
+    modalCurrentMedia.src = '';
+  }
+
+  // hide modal
+  modal.classList.remove('open');
+  modal.setAttribute('aria-hidden','true');
+  document.body.classList.remove('modal-open');
+  modalBody.innerHTML = '';
+  modalOpen = false;
+  modalCurrentMedia = null;
+
+  // resume marquees (we'll set them to running=true)
+  document.querySelectorAll('.marquee').forEach(m=>{
+    const api = m._marqueeAPI;
+    if(api) api.resume();
+    // also try to resume inner videos (muted)
+    m.querySelectorAll('video').forEach(v=>{
+      try{ v.play().catch(()=>{}); } catch(e){}
+    });
+  });
+}
+
+function modalKeyHandler(e){
+  if(e.key === 'Escape' || e.key === 'Esc'){
+    closeModal();
+  }
+}
+
+function modalOutsideHandler(e){
+  // if click/pointerdown outside modal-content, close
+  if(!e.target.closest('.modal-content')){
+    closeModal();
+  }
+}
+
+// close button
+modalCloseBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  closeModal();
+});
+
+/* Stop propagation for clicks inside modal content so pointerdown handler doesn't close immediately */
+modal.querySelector('.modal-content').addEventListener('pointerdown', (e)=> e.stopPropagation());
+
+/* ---------- Accessibility: focus trap (light) ---------- */
+modal.addEventListener('keydown', (e)=>{
+  if(e.key === 'Tab'){
+    // simple focus trap: keep focus inside modal close button
+    e.preventDefault();
+    modalCloseBtn.focus();
+  }
+});
+
+/* ---------- Ensure initial autoplay attempt for in-view marquees ---------- */
+setTimeout(()=> {
+  document.querySelectorAll('.marquee').forEach(m=>{
+    m.querySelectorAll('video').forEach(v=>{
       v.muted = true;
       v.playsInline = true;
       v.loop = true;
-      v.play().catch(()=>{ /* autoplay might be blocked until user interacts */});
+      v.play().catch(()=>{});
     });
-  }, 300);
-}
+  });
+}, 500);
 </script>
+
 </body>
 </html>
